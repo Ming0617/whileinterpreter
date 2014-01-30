@@ -1,4 +1,4 @@
-module Parser where
+module Parser ( whileParser ) where
 
 import Text.Parsec
 import Text.Parsec.Expr

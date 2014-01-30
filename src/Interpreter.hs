@@ -1,4 +1,4 @@
-module Interpreter where
+module Interpreter ( evalProgram )  where
 
 import qualified Data.Map as M
 import AST
@@ -35,3 +35,6 @@ interpret ( While e st ) s
     where
      t = evalB e s
      w = interpret st s
+
+evalProgram :: Stmt -> Store
+evalProgram st = interpret st M.empty
