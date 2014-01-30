@@ -7,7 +7,7 @@ import Control.Applicative  hiding ( (<|>) )
 import Lexer
 import AST
 
-aTable = [  [   Prefix ( Neg <$ reservedOp "-" ) ]  
+aTable = [  [   Prefix ( Neg <$ reservedOp "-" )                ]  
           , [   Infix  ( ABin Mul <$ reservedOp "*" ) AssocLeft
               , Infix  ( ABin Div <$ reservedOp "/" ) AssocLeft ]
           , [   Infix  ( ABin Add <$ reservedOp "+" ) AssocLeft
@@ -16,7 +16,7 @@ aTable = [  [   Prefix ( Neg <$ reservedOp "-" ) ]
 
 
 
-bTable = [  [  Prefix ( Not  <$ reservedOp "not" ) ]
+bTable = [  [  Prefix ( Not  <$ reservedOp "not" )               ]
           , [  Infix  ( BBin And <$ reservedOp "and" ) AssocLeft ] 
           , [  Infix  ( BBin Or  <$ reservedOp "or"  ) AssocLeft ]
          ] 
@@ -34,9 +34,9 @@ bExpression = buildExpressionParser bTable bTerm where
               <|> (  Con True   <$ reserved "true"  ) 
               <|> (  Con False  <$ reserved "false" )
               <|> try (  AL Greater <$>  ( aExpression  <* reserved ">" ) 
-                                <*> aExpression )
+                                    <*>    aExpression )
               <|> (  AL Less    <$>  ( aExpression  <* reserved "<" ) 
-                                <*> aExpression ) 
+                                <*>    aExpression ) 
 
 
   
@@ -50,9 +50,8 @@ whileParser = whiteSpace *> stmtParser <* eof where
             stmtOne =  ( Assing <$> ( Var <$> identifier ) 
                                 <*> ( reserved ":=" *> aExpression ) )
                    <|> ( If <$> ( reserved "if" *> bExpression <* reserved "then" ) 
-                          <*> stmtParser 
-                          <*> ( reserved "else" *> stmtParser ) )
-                   <|> ( While <$> ( reserved "while" *> bExpression 
-                                                      <*  reserved "do" ) 
-                               <*> stmtParser )
+                            <*>   stmtParser 
+                            <*> ( reserved "else" *> stmtParser ) )
+                   <|> ( While <$> ( reserved "while" *> bExpression <*  reserved "do" ) 
+                               <*>   stmtParser )
                    <|> ( Skip <$ reserved "nop" ) 
