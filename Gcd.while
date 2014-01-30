@@ -1,0 +1,14 @@
+{-
+We don't have IO function in while so we have see 
+which variable stores the answer. In this case is t.
+-}
+
+a := 10 ;
+b := 100  ;
+while ( b > 0 ) do 
+ (
+	t := b ;
+    	b := a - ( a / b ) * b ;
+	a := t 
+)
+
