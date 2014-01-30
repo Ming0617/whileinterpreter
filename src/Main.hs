@@ -4,6 +4,9 @@ import Text.Parsec
 import Parser
 import Interpreter
 
+
+
+
 main = do 
      ( file : _ ) <- getArgs
      program <- readFile file

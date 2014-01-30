@@ -6,7 +6,7 @@ module AST ( Opa (..), Opb (..), Opr (..), AExpr (.. ) , BExpr ( .. ),
 data Opa = Add
          | Sub
          | Mul
-         | Div 
+         | Div
          deriving Show
 
 data Opb = And 

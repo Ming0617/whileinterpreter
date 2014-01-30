@@ -14,6 +14,7 @@ evalA ( ABin Sub e1 e2 ) s = evalA e1 s - evalA e2 s
 evalA ( ABin Mul e1 e2 ) s = evalA e1 s * evalA e2 s
 evalA ( ABin Div e1 e2 ) s = div ( evalA e1 s ) ( evalA e2 s )
 
+
 evalB :: BExpr -> Store -> Bool
 evalB ( Con b ) _ = b 
 evalB ( Not e ) s = not ( evalB e s )
@@ -30,7 +31,7 @@ interpret ( If e st1 st2 ) s
           | evalB e s = interpret st1 s
           | otherwise = interpret st2 s
 interpret ( While e st ) s 
-    | not t = w   
+    | not t = s   
     | otherwise =  interpret ( While e st ) w 
     where
      t = evalB e s
