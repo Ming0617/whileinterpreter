@@ -1,3 +1,4 @@
+{-# LANGUAGE RankNTypes, LiberalTypeSynonyms,ImpredicativeTypes #-}
 module Parser ( whileParser ) where
 
 import Text.Parsec
@@ -20,7 +21,8 @@ bTable = [  [  Prefix ( Not  <$ reservedOp "not" )               ]
           , [  Infix  ( BBin And <$ reservedOp "and" ) AssocLeft ] 
           , [  Infix  ( BBin Or  <$ reservedOp "or"  ) AssocLeft ]
          ] 
-      
+  
+
 aExpression :: Parser AExpr
 aExpression = buildExpressionParser aTable aTerm where 
          aTerm =  parens aExpression 
@@ -39,6 +41,8 @@ bExpression = buildExpressionParser bTable bTerm where
                                 <*>    aExpression ) 
 
 
+ 
+
   
 
 whileParser :: Parser Stmt
@@ -47,11 +51,13 @@ whileParser = whiteSpace *> stmtParser <* eof where
             stmtParser =  parens stmtParser 
                       <|> List <$> sepBy stmtOne semi
             stmtOne :: Parser Stmt
-            stmtOne =  ( Assing <$> ( Var <$> identifier ) 
-                                <*> ( reserved ":=" *> aExpression ) )
-                   <|> ( If <$> ( reserved "if" *> bExpression <* reserved "then" ) 
+            stmtOne =  parens stmtOne
+              <|> ( Assing <$> ( Var <$> identifier ) 
+                                 <*> ( reserved ":=" *> aExpression ) )
+             <|> ( If <$> ( reserved "if" *> bExpression <* reserved "then" ) 
                             <*>   stmtParser 
                             <*> ( reserved "else" *> stmtParser ) )
-                   <|> ( While <$> ( reserved "while" *> bExpression <*  reserved "do" ) 
-                               <*>   stmtParser )
+             <|> ( While <$> ( reserved "while" *> bExpression <* reserved "do" ) 
+                            <*>   stmtParser )
                    <|> ( Skip <$ reserved "nop" ) 
+

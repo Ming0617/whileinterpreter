@@ -1,5 +1,5 @@
-module AST ( Opa (..), Opb (..), Opr (..), AExpr (.. ) , BExpr ( .. ), 
-             Stmt ( .. )  ) where
+{-# LANGUAGE GADTs #-}
+module AST  where
 
 
 
@@ -30,8 +30,11 @@ data BExpr = Con Bool
            | AL Opr AExpr AExpr
            deriving Show
 
+
+
+
 data Stmt = List [ Stmt ]
-          | Assing AExpr  AExpr
+          | Assing  AExpr AExpr 
           | If BExpr Stmt Stmt
           | While BExpr Stmt
           | Skip
